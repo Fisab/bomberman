@@ -1,7 +1,7 @@
 import data_worker
 import random
 
-class Map():
+class Map:
 	def __init__(self, cell_size, screen, pygame, cell_amount):
 		self.cell_size = cell_size
 		self.screen = screen
@@ -29,6 +29,7 @@ class Map():
 
 
 	def load_map(self):
+		#old load from file
 		# map = data_worker.load_file('data/maps/map.json')
 		
 		# for i in map['colors']:
@@ -37,6 +38,8 @@ class Map():
 		# 		self.colors[i][j] = int(self.colors[i][j])
 		# 	self.colors[i] = tuple(self.colors[i])
 		# self.blocks = map['blocks']
+		
+		#gen map in real time
 		for i in range(self.cell_amount[1]):
 			for j in range(self.cell_amount[0]):
 				if i % 2 == 0 and j % 2 == 0:

@@ -6,8 +6,9 @@ import data_worker
 def main():
 	Window = window.Window()
 	Map = map.Map(Window.cell_size, Window.screen, Window.pygame, Window.cell_amount)
-	#Player = player.Hero([5,5], Window.screen, Window.pygame, Window.cell_size, Map)
-	Players = data_worker.create_players(Window.screen, Window.pygame, Window.cell_size, Map)
+	players = data_worker.create_players(Window.screen, Window.pygame, Window.cell_size, Map)
+
+	Data = data_worker.Data(Map.blocks, players)
 
 	clock = Window.pygame.time.Clock()
 	done = False
@@ -16,11 +17,11 @@ def main():
 		for event in Window.pygame.event.get():
 			if event.type == Window.pygame.QUIT:
 				done = True
-		#Player.query('MOVE LEFT;')
+
 		Window.clear()
 		Map.draw_map()
 
-		for pl in Players:
+		for pl in players:
 			pl.query('MOVE LEFT;')
 			pl.draw()
 

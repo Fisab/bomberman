@@ -1,7 +1,7 @@
 import pygame
 import math
 
-class Window():
+class Window:
 	def __init__(self):
 		self.pygame = pygame
 		self.pygame.init()

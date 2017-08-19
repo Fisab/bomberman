@@ -1,4 +1,4 @@
-class Hero():
+class Hero:
 	def __init__(self, screen, pygame, size, map, color, nick, path, data_path):
 		self.Map = map
 
