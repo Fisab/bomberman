@@ -7,7 +7,7 @@ class Window():
 		self.pygame.init()
 		self.pygame.display.set_caption("Bomber man v0.1.322")
 
-		self.cell_size = 35
+		self.cell_size = 30
 		self.cell_amount = [31, 21]
 		self.screen_size = [self.cell_amount[0] * self.cell_size, self.cell_amount[1] * self.cell_size]
 		self.screen = pygame.display.set_mode(self.screen_size)

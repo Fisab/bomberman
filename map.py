@@ -1,4 +1,5 @@
 import data_worker
+import random
 
 class Map():
 	def __init__(self, cell_size, screen, pygame, cell_amount):
@@ -19,6 +20,14 @@ class Map():
 
 		self.load_map()
 
+	def get_player_pos(self):
+		while True:
+			pos = [random.randint(0, self.cell_amount[0]), random.randint(0, self.cell_amount[1])]
+			valid = self.check_collision(pos)
+			if valid:
+				return pos
+
+
 	def load_map(self):
 		# map = data_worker.load_file('data/maps/map.json')
 		
@@ -35,7 +44,14 @@ class Map():
 						"pos":[j, i],
 						"indent": 0
 					})
-				if i % 2 == 0 and j % 2 == 0:
+				elif i == 0 or j == 0 or i == self.cell_amount[1]-1 or j == self.cell_amount[0]-1:
+					self.blocks['strong_blocks'].append({
+						"pos":[j, i],
+						"indent": 0
+					})
+				if i % 2 == 0 and j % 2 == 0 and i != 0 and j != 0 and i != self.cell_amount[1]-1 and j != self.cell_amount[0]-1:
+					if random.randint(0,1) == 1:
+						continue
 					self.blocks['simple_blocks'].append({
 						"pos":[j+1, i],
 						"indent": 5
@@ -45,8 +61,18 @@ class Map():
 						"indent": 5
 					})
 
+
 	def scale_pos(self, pos):
 		return [pos[0] * self.cell_size, pos[1] * self.cell_size]
+
+	def check_collision(self, pos):
+		for i in self.blocks['simple_blocks']:
+			if i['pos'] == pos:
+				return False
+		for i in self.blocks['strong_blocks']:
+			if i['pos'] == pos:
+				return False
+		return True
 
 	def draw_map(self):
 		for i in self.blocks:
