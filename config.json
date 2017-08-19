@@ -1,0 +1,17 @@
+{
+	"player_amount": 2,
+	"players": [
+		{
+			"nick": "Fisab",
+			"color": "",
+			"script_path": "data/fisab/main.py",
+			"data_file": "data.json"
+		},
+		{
+			"nick": "eSkry",
+			"color": "",
+			"script_path": "data/eskry/main.exe",
+			"data_file": "data.json"
+		}
+	]
+}
