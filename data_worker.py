@@ -11,14 +11,22 @@ class Data:
 	def update(self):
 		pass
 
+	def get_players(self):
+		return self.players
 
-def create_players(screen, pygame, size, map):
+	def delete_player(self, player):
+		self.players.remove(player)
+		del(player)
+
+
+
+def create_players(screen, pygame, map):
 	res = []
 
 	data = tools.load_file('config.json')
 	for i in data['players']:
 		if i['color'] == '':
 			i['color'] = '0,0,0'
-		pl = player.Hero(screen, pygame, size, map, i['color'], i['nick'], i['script_path'], i['data_file'])
+		pl = player.Hero(screen, pygame, map, i['color'], i['nick'], i['script_path'], i['data_file'])
 		res.append(pl)
 	return res

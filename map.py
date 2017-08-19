@@ -1,13 +1,14 @@
 import data_worker
 import random
+import tools
 
 class Map:
-	def __init__(self, cell_size, screen, pygame, cell_amount):
-		self.cell_size = cell_size
+	def __init__(self, screen, pygame):
 		self.screen = screen
 		self.pygame = pygame
 
-		self.cell_amount = cell_amount
+		self.cell_size = tools.get_val_config('cell_size')
+		self.cell_amount = tools.get_val_config('cell_amount')
 
 		self.colors = {
 			"simple_blocks": (100,100,100),
@@ -24,9 +25,21 @@ class Map:
 		while True:
 			pos = [random.randint(0, self.cell_amount[0]), random.randint(0, self.cell_amount[1])]
 			valid = self.check_collision(pos)
-			if valid:
+			check_x = pos[0] > 4 and pos[0] < self.cell_amount[0] - 4
+			check_y = pos[1] > 4 and pos[1] < self.cell_amount[1] - 4
+				
+			if valid and check_y and check_x:
+				near_cells = [[0,1],[-1,0],[0,-1],[1,0]]
+				for i in near_cells:
+					new_pos = [pos[0]+i[0], pos[1]+i[1]]
+					self.del_simple_block(new_pos)
 				return pos
 
+	def del_simple_block(self, pos):
+		for i in self.blocks['simple_blocks']:
+			if i['pos'] == pos:
+				self.blocks['simple_blocks'].remove(i)
+				return
 
 	def load_map(self):
 		#old load from file
@@ -38,7 +51,7 @@ class Map:
 		# 		self.colors[i][j] = int(self.colors[i][j])
 		# 	self.colors[i] = tuple(self.colors[i])
 		# self.blocks = map['blocks']
-		
+
 		#gen map in real time
 		for i in range(self.cell_amount[1]):
 			for j in range(self.cell_amount[0]):
@@ -52,6 +65,7 @@ class Map:
 						"pos":[j, i],
 						"indent": 0
 					})
+				#continue
 				if i % 2 == 0 and j % 2 == 0 and i != 0 and j != 0 and i != self.cell_amount[1]-1 and j != self.cell_amount[0]-1:
 					if random.randint(0,1) == 1:
 						continue
@@ -64,22 +78,24 @@ class Map:
 						"indent": 5
 					})
 
-
-	def scale_pos(self, pos):
-		return [pos[0] * self.cell_size, pos[1] * self.cell_size]
-
-	def check_collision(self, pos):
-		for i in self.blocks['simple_blocks']:
-			if i['pos'] == pos:
-				return False
-		for i in self.blocks['strong_blocks']:
+	def check_col(self, pos, block_name):
+		for i in self.blocks[block_name]:
 			if i['pos'] == pos:
 				return False
 		return True
 
+	def check_collision(self, pos, only_simple=False, only_strong=False):
+		if only_simple:
+			return self.check_col(pos, 'simple_blocks')
+		if only_strong:
+			return self.check_col(pos, 'strong_blocks')
+		else:
+			return self.check_col(pos, 'strong_blocks') * self.check_col(pos, 'simple_blocks')
+
 	def draw_map(self):
 		for i in self.blocks:
 			for j in self.blocks[i]:
-				pos = self.scale_pos(j['pos'])
+				pos = tools.scale_pos(j['pos'], self.cell_size)
+
 				self.pygame.draw.rect(self.screen, self.colors[i], (pos[0] + j['indent'], pos[1] + j['indent'], self.cell_size - j['indent'] * 2, self.cell_size - j['indent'] * 2))
 

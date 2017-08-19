@@ -1,5 +1,10 @@
 {
+	"cell_size": 30,
+	"cell_amount": [31, 21],
 	"player_amount": 2,
+	"cooldown_plant": 5,
+	"bomb_exp_ticks": 5,
+	"bomb_exp_radius": 3,
 	"players": [
 		{
 			"nick": "Fisab",

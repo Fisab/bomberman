@@ -2,13 +2,18 @@ import window
 import map
 import player
 import data_worker
+import bomb
+import tools
 
 def main():
 	Window = window.Window()
-	Map = map.Map(Window.cell_size, Window.screen, Window.pygame, Window.cell_amount)
-	players = data_worker.create_players(Window.screen, Window.pygame, Window.cell_size, Map)
+	Map = map.Map(Window.screen, Window.pygame)
 
+	players = data_worker.create_players(Window.screen, Window.pygame, Map)
 	Data = data_worker.Data(Map.blocks, players)
+
+	for i in players:
+		i.Data = Data
 
 	clock = Window.pygame.time.Clock()
 	done = False
@@ -19,10 +24,14 @@ def main():
 				done = True
 
 		Window.clear()
-		Map.draw_map()
-
 		for pl in players:
-			pl.query('MOVE LEFT;')
+			pl.query('MOVE LEFT;', Window.tick)
+			pl.update()
+		if len(players) == 2:
+			players[0].query('PLANT;', Window.tick)
+
+		Map.draw_map()
+		for pl in players:
 			pl.draw()
 
 		Window.pygame.display.flip()

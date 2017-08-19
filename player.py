@@ -1,5 +1,8 @@
+import tools
+import bomb
+
 class Hero:
-	def __init__(self, screen, pygame, size, map, color, nick, path, data_path):
+	def __init__(self, screen, pygame, map, color, nick, path, data_path):
 		self.Map = map
 
 		self.pos = self.Map.get_player_pos()
@@ -9,7 +12,7 @@ class Hero:
 			color[i] = int(color[i])
 		self.color = tuple(color)
 
-		self.size = size
+		self.size = tools.get_val_config('cell_size')
 
 		self.vel = [0,0]
 
@@ -18,16 +21,25 @@ class Hero:
 
 		self.intent = 2
 
+		self.cooldown_plant = tools.get_val_config('cooldown_plant')
+		#self.tick_exp = tools.get_val_config('bomb_exp_ticks')
+
 		self.name = nick
 		self.script_path = path
 		self.data_file_path = data_path
 
-	def scale_pos(self, pos):
-		return [pos[0] * self.size, pos[1] * self.size]
+		self.bombs = []
+
+		self.last_plant = 0
 
 	def draw(self):
-		pos = self.scale_pos(self.pos)
+		pos = tools.scale_pos(self.pos, self.size)
 		self.pygame.draw.rect(self.screen, self.color, (pos[0] + self.intent, pos[1] + self.intent, self.size - self.intent * 2, self.size - self.intent * 2))
+
+	def update(self):
+		for bomb in self.bombs:
+			bomb.update()
+			bomb.draw()
 
 	def set_vel(self, dir):
 		if dir == 'up':
@@ -39,6 +51,10 @@ class Hero:
 		if dir == 'left':
 			self.vel = [-1, 0]
 
+	def delete_bomb(self, bomb):
+		self.bombs.remove(bomb)
+		del(bomb)
+
 	def move(self):
 		new_pos = [self.pos[0] + self.vel[0], self.pos[1] + self.vel[1]]
 		can_move = self.Map.check_collision(new_pos)
@@ -46,10 +62,24 @@ class Hero:
 			self.pos = [self.pos[0] + self.vel[0], self.pos[1] + self.vel[1]]
 		self.vel = [0, 0]
 
-	def query(self, req):
+	def plant_bomb(self, tick):
+		if tick - self.last_plant < self.cooldown_plant:
+			#cooldown
+			return
+		self.last_plant = tick
+		pos = self.pos
+		self.bombs.append(bomb.Bomb(pos, self.color, self.pygame, self.screen, self))
+
+	def query(self, req, tick):
 		reqs = req.split(';')
 		for i in reqs:
 			if i.lower().find('move') != -1:
 				dir = i.split(' ')[1].lower()
 				self.set_vel(dir)
 				self.move()
+			if i.lower().find('plant') != -1:
+				self.plant_bomb(tick)
+	
+	def delete(self):
+		del(self)
+
