@@ -20,39 +20,35 @@ class Data:
 
 	def insert_data(self):
 		data = {}
-		# data['walls'] = self.walls
-		# data['tick'] = self.tick
 
-		data['walls'] = {
-			'simple_blocks': {'pos': self.walls['simple_blocks'][0]['pos']}, 
-			'strong_blocks': {'pos': self.walls['strong_blocks'][0]['pos']}
-		}
+		walls = {'simple_blocks': [], 'strong_blocks': []}
+		for i in walls:
+			for j in self.walls[i]:
+				walls[i].append({
+					'pos': j['pos']
+				})
+		data['walls'] = walls
 		data['tick'] = self.tick
-		pl = self.players[0]
-		data['players'] = [{'name': pl.name,'pos': pl.pos,'color': pl.color,'last_plant': pl.last_plant}]
-		if len(pl.bombs) == 0:
-			return
-		bomb = pl.bombs[0]
-		data['bombs'] = [{'owner_name': pl.name,'pos': bomb.pos,'color': bomb.color[1],'exp_radius': bomb.exp_radius,'time': bomb.time}]
-		# players = []
-		# bombs = []
-		# for pl in self.players:
-		# 	players.append({
-		# 		'name': pl.name,
-		# 		'pos': pl.pos,
-		# 		'color': pl.color,
-		# 		'last_plant': pl.last_plant
-		# 	})
-		# 	for bomb in pl.bombs:
-		# 		bombs.append({
-		# 			'owner_name': pl.name,
-		# 			'pos': bomb.pos,
-		# 			'color': bomb.color[1],
-		# 			'exp_radius': bomb.exp_radius,
-		# 			'time': bomb.time
-		# 		})
 
-		#data['players'] = players
+		players = []
+		bombs = []
+		for pl in self.players:
+			players.append({
+				'name': pl.name,
+				'pos': pl.pos,
+				'color': pl.color,
+				'last_plant': pl.last_plant
+			})
+			for bomb in pl.bombs:
+				bombs.append({
+					'owner_name': pl.name,
+					'pos': bomb.pos,
+					'color': bomb.color[1],
+					'exp_radius': bomb.exp_radius,
+					'time': bomb.time
+				})
+
+		data['players'] = players
 
 		self.insert_to_file('data/data.json', data)
 

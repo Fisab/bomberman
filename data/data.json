@@ -1,1 +1,1 @@
-{"walls": {"simple_blocks": {"pos": [3, 2]}, "strong_blocks": {"pos": [0, 0]}}, "tick": 10, "players": [{"name": "Fisab", "pos": [3, 5], "color": [255, 69, 0], "last_plant": 10}], "bombs": [{"owner_name": "Fisab", "pos": [3, 5], "color": [255, 69, 0], "exp_radius": 3, "time": 0}]}
+{"walls": {"simple_blocks": {"pos": [3, 2]}, "strong_blocks": {"pos": [0, 0]}}, "tick": 10, "players": [{"name": "Fisab", "pos": [15, 13], "color": [255, 69, 0], "last_plant": 10}], "bombs": [{"owner_name": "Fisab", "pos": [15, 13], "color": [255, 69, 0], "exp_radius": 3, "time": 0}]}
