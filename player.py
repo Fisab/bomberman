@@ -55,9 +55,17 @@ class Hero:
 		self.bombs.remove(bomb)
 		del(bomb)
 
+	def check_col_pl(self, pos):
+		for i in self.Data.players:
+			if i.pos == self.pos and self.color != i.color:
+				return False
+		return True
+
 	def move(self):
 		new_pos = [self.pos[0] + self.vel[0], self.pos[1] + self.vel[1]]
 		can_move = self.Map.check_collision(new_pos)
+		can_move_pl = self.check_col_pl(new_pos)
+		print(can_move_pl)
 		if can_move:
 			self.pos = [self.pos[0] + self.vel[0], self.pos[1] + self.vel[1]]
 		self.vel = [0, 0]

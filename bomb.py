@@ -20,7 +20,7 @@ class Bomb:
 		self.screen = screen
 		#
 
-	def check_collision_players(self, pos):
+	def explode_players(self, pos):
 		players = self.owner.Data.players
 		pl_remove = []
 		a = True
@@ -47,14 +47,14 @@ class Bomb:
 			for i in range(len(dirs)):
 				if not dirs[i][2]:
 					continue
-				del_player = self.check_collision_players(self.pos)
+				del_player = self.explode_players(self.pos)
 				if not del_player:
 					for i in dirs:
 						i[2] = False
 					stop = True
 					break
 				pos = [ self.pos[0] + dirs[i][0], self.pos[1] + dirs[i][1] ]
-				del_player = self.check_collision_players(pos)
+				del_player = self.explode_players(pos)
 				if not del_player:
 					poses_draw.append(pos)
 					for i in dirs:
