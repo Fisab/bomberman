@@ -16,8 +16,6 @@ class Window:
 		self.grid_color = (200,200,200)
 		self.clear_color = (255,255,255)
 
-		self.tick = 0
-
 	def draw_grid(self):
 		for y in range(self.cell_amount[1]):
 			pygame.draw.line(self.screen, self.grid_color, [0, y * self.cell_size], [self.screen_size[0], y * self.cell_size], 1)
@@ -25,9 +23,5 @@ class Window:
 			pygame.draw.line(self.screen, self.grid_color, [x * self.cell_size, 0], [x * self.cell_size, self.screen_size[1]], 1)
 
 	def clear(self):
-		self.tick += 1
 		self.screen.fill(self.clear_color)
 		self.draw_grid()
-
-	def get_tick(self):
-		return self.tick

@@ -22,13 +22,13 @@ def main():
 		for event in Window.pygame.event.get():
 			if event.type == Window.pygame.QUIT:
 				done = True
-
+		Data.update()
 		Window.clear()
 		for pl in players:
-			pl.query('MOVE LEFT;', Window.tick)
+			pl.query('MOVE LEFT;', Data.get_tick())
 			pl.update()
 		if len(players) == 2:
-			players[0].query('PLANT;', Window.tick)
+			players[0].query('PLANT;', Data.get_tick())
 
 		Map.draw_map()
 		for pl in players:
