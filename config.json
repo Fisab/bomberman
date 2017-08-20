@@ -9,14 +9,8 @@
 		{
 			"nick": "Fisab",
 			"color": "255,69,0",
-			"script_path": "data/fisab/main.py",
-			"data_file": "data.json"
-		},
-		{
-			"nick": "eSkry",
-			"color": "255,20,147",
-			"script_path": "data/eskry/main.exe",
-			"data_file": "data.json"
+			"script_path": "data\\fisab\\script.py",
+			"data_file": "data\\fisab\\fisab.cmd"
 		}
 	]
 }

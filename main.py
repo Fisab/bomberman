@@ -25,17 +25,14 @@ def main():
 		Data.update()
 		Window.clear()
 		for pl in players:
-			pl.query('MOVE LEFT;', Data.get_tick())
 			pl.update()
-		if len(players) == 2:
-			players[0].query('PLANT;', Data.get_tick())
 
 		Map.draw_map()
 		for pl in players:
 			pl.draw()
 
 		Window.pygame.display.flip()
-		clock.tick(5)
+		clock.tick(2)
 	Window.pygame.quit()
 
 if __name__ == '__main__':

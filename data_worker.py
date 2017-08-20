@@ -1,6 +1,8 @@
 import player
 import tools
 import json
+import os
+import tools
 
 class Data:
 	def __init__(self, walls, players):
@@ -52,8 +54,20 @@ class Data:
 
 		self.insert_to_file('data/data.json', data)
 
+	def query_scripts(self):
+		for i in self.players:
+			os.system(i.script_path)
+
+	def query_cmds(self):
+		for i in self.players:
+			cmds = self.load_file(i.data_file_path)
+			i.query(cmds, self.tick)
+
 	def update(self):
 		self.insert_data()
+
+		self.query_scripts()
+		self.query_cmds()
 
 		self.tick+=1
 

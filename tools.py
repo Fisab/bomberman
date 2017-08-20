@@ -16,3 +16,6 @@ def scale_pos(pos, size):
 def clear_data_file():
 	with open('data/data.json', mode='w', encoding='utf-8') as f:
 		json.dump('', f)
+
+def sleep(sec):
+	time.sleep(sec)

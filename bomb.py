@@ -1,7 +1,7 @@
 import tools
 
 class Bomb:
-	def __init__(self, pos, color, pygame, screen, owner):
+	def __init__(self, pos, color, pygame, screen, owner, time):
 		self.pos = pos
 		self.color = [(1,1,1), color]
 
@@ -12,7 +12,8 @@ class Bomb:
 
 		self.exp_radius = tools.get_val_config('bomb_exp_radius')
 
-		self.time = tools.get_val_config('bomb_exp_ticks')
+		#self.time = tools.get_val_config('bomb_exp_ticks')
+		self.time = time
 		self.step_burn = self.size[0] / self.time
 
 		#
@@ -39,6 +40,10 @@ class Bomb:
 		dirs = [[0,1,True],[-1,0,True],[0,-1,True],[1,0,True]]#x,y,need_go_next?
 		stop = False
 		for j in range(1, self.exp_radius):
+			if j > 1:
+				for i in range(len(dirs)):
+					dirs[i][0] = int(dirs[i][0] / (j - 1))
+					dirs[i][1] = int(dirs[i][1] / (j - 1))
 			if stop:
 				break
 			for i in range(len(dirs)):
@@ -49,29 +54,25 @@ class Bomb:
 					continue
 				del_player = self.explode_players(self.pos)
 				if not del_player:
-					for i in dirs:
-						i[2] = False
+					for t in dirs:
+						t[2] = False
 					stop = True
 					break
 				pos = [ self.pos[0] + dirs[i][0], self.pos[1] + dirs[i][1] ]
 				del_player = self.explode_players(pos)
 				if not del_player:
 					poses_draw.append(pos)
-					for i in dirs:
-						i[2] = False
-					stop = True
-					break
+					dirs[i][2] = False
+					continue
 				if check_collision(pos, only_strong=True):
 					poses_draw.append(pos)
 				else:
 					dirs[i][2] = False
+					continue
 				del_wall = check_collision(pos, only_simple=True)
 				if not del_wall:#explosion was collision with some wall
 					dirs[i][2] = False
 					self.owner.Map.del_simple_block(pos)
-			for i in range(len(dirs)):
-				dirs[i][0] = int(dirs[i][0] / j)
-				dirs[i][1] = int(dirs[i][1] / j)
 		self.draw_explosion(poses_draw)
 		self.owner.delete_bomb(self)
 

@@ -69,23 +69,33 @@ class Hero:
 			self.pos = [self.pos[0] + self.vel[0], self.pos[1] + self.vel[1]]
 		self.vel = [0, 0]
 
-	def plant_bomb(self, tick):
+	def plant_bomb(self, tick, time=tools.get_val_config('bomb_exp_ticks')):
 		if tick - self.last_plant < self.cooldown_plant:
 			#cooldown
 			return
 		self.last_plant = tick
 		pos = self.pos
-		self.bombs.append(bomb.Bomb(pos, self.color, self.pygame, self.screen, self))
+		self.bombs.append(bomb.Bomb(pos, self.color, self.pygame, self.screen, self, time))
 
 	def query(self, req, tick):
 		reqs = req.split(';')
 		for i in reqs:
-			if i.lower().find('move') != -1:
+			cmd = i.lower()
+			if cmd.find('move') != -1:
 				dir = i.split(' ')[1].lower()
 				self.set_vel(dir)
 				self.move()
-			if i.lower().find('plant') != -1:
-				self.plant_bomb(tick)
+			if cmd.find('plant') != -1:
+				buf = cmd.split(' ')
+				if len(cmd) == 1:
+					self.plant_bomb(tick)
+				else:
+					buf[1] = int(buf[1])
+					if buf[1] > 15:
+						buf[1] = 15
+					elif buf[1] < 0:
+						buf[1] = 1
+					self.plant_bomb(tick, time=buf[1])
 	
 	def delete(self):
 		del(self)
