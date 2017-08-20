@@ -12,7 +12,6 @@ class Bomb:
 
 		self.exp_radius = tools.get_val_config('bomb_exp_radius')
 
-		#self.time = tools.get_val_config('bomb_exp_ticks')
 		self.time = time
 		self.step_burn = self.size[0] / self.time
 

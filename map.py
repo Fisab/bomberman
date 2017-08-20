@@ -42,16 +42,6 @@ class Map:
 				return
 
 	def load_map(self):
-		#old load from file
-		# map = data_worker.load_file('data/maps/map.json')
-		
-		# for i in map['colors']:
-		# 	self.colors[i] = map['colors'][i].split(',')
-		# 	for j in range(len(self.colors[i])):
-		# 		self.colors[i][j] = int(self.colors[i][j])
-		# 	self.colors[i] = tuple(self.colors[i])
-		# self.blocks = map['blocks']
-
 		#gen map in real time
 		for i in range(self.cell_amount[1]):
 			for j in range(self.cell_amount[0]):

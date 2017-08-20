@@ -32,7 +32,7 @@ def main():
 			pl.draw()
 
 		Window.pygame.display.flip()
-		clock.tick(2)
+		clock.tick(3)
 	Window.pygame.quit()
 
 if __name__ == '__main__':
