@@ -1,3 +1,9 @@
+# Info
+![](https://pp.userapi.com/c841036/v841036835/17b0c/FHp7tqeHGoA.jpg)
+* Grey - simple block. If explode near bomb this block will destruct
+* Green - strong block. If explode near bomb nothing will happen
+* Orange - it's my hero(rect)
+* Black circle with small orange circle - bomb
 # Install
 For play this game u must install python3 and pip for python3. Then this libraries: pygame.
 # Setup
