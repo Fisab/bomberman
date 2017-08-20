@@ -79,13 +79,16 @@ class Hero:
 
 	def query(self, req, tick):
 		reqs = req.split(';')
+		check_am = [0,0]
 		for i in reqs:
 			cmd = i.lower()
-			if cmd.find('move') != -1:
+			if cmd.find('move') != -1 and check_am[0] == 0:
 				dir = i.split(' ')[1].lower()
+				check_am[0] = 1
 				self.set_vel(dir)
 				self.move()
-			if cmd.find('plant') != -1:
+			if cmd.find('plant') != -1 and check_am[1] == 0:
+				check_am[1] = 1
 				buf = cmd.split(' ')
 				if len(cmd) == 1:
 					self.plant_bomb(tick)
