@@ -18,8 +18,8 @@ Open **config.json** and u see there something like this:
       }
    ]
 }
-For add more players just create for their script, command file and then input this into config "players" like example. You can use any script types which can read and write from/into files.(exe, py, php....)
 ```
+For add more players just create for their script, command file and then input this into config "players" like example. You can use any script types which can read and write from/into files.(exe, py, php....)
 
 # Data file with info about game for player scripts:
 ```
